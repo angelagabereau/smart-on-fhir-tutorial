@@ -1,7 +1,7 @@
 (function(window){
   window.extractData = function() {
     var ret = $.Deferred();
-console.log("extractData expanded scope refactor");
+console.log("extractData expanded scope1 refactor");
     function onError() {
       console.log('Loading error', arguments);
       ret.reject();
