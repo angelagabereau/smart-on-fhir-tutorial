@@ -1,19 +1,17 @@
 (function(window){
   window.extractData = function() {
     var ret = $.Deferred();
-console.log("extractData expanded scope");
+console.log("extractData expanded scope refactor");
     function onError() {
       console.log('Loading error', arguments);
       ret.reject();
     }
 
     function onReady(smart)  {
-
-      var mPatientResource, mPatient, mObservations;
+      var mPatient, mObservations;
       if (smart.hasOwnProperty('patient')) {
-        mPatientResource = smart.patient;
-        mPatient = patientResource.read();
-        mObservations = patientResource.api.fetchAll({
+        mPatient = smart.patient.read();
+        mObservations = smart.patient.api.fetchAll({
                     type: 'Observation',
                     // query: {
                     //   code: {
@@ -26,23 +24,25 @@ console.log("extractData expanded scope");
 
         $.when(mPatient, mObservations).fail(onError);
 
-        $.when(mPatient, mObservations).done(function(lPatient, lObservations) {
+        $.when(mPatient, mObservations).done(function(patient, obv) {
 
-          var byCodes = smart.byCodes(lObservations, 'code'); //Is a data structure
-          var gender = lPatient.gender;
+
+
+          var byCodes = smart.byCodes(obv, 'code');
+          var gender = patient.gender;
 
           var fname = '';
           var lname = '';
 
-console.log(lPatient);
-console.log(lObservations);
+console.log(patient);
+console.log(obv);
 console.log(byCodes);
 console.log(gender);
 
 
-          if (typeof lPatient.name[0] !== 'undefined') {
-            fname = lPatient.name[0].given.join(' ');
-            lname = lPatient.name[0].family.join(' ');
+          if (typeof patient.name[0] !== 'undefined') {
+            fname = patient.name[0].given.join(' ');
+            lname = patient.name[0].family.join(' ');
           }
 
           var height = byCodes('8302-2');
@@ -52,7 +52,7 @@ console.log(gender);
           var ldl = byCodes('2089-1');
 
           var p = defaultPatient();
-          p.birthdate = lPatient.birthDate;
+          p.birthdate = patient.birthDate;
           p.gender = gender;
           p.fname = fname;
           p.lname = lname;
