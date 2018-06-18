@@ -8,10 +8,12 @@ console.log("extractData expanded scope");
     }
 
     function onReady(smart)  {
+
+      var mPatientResource, mPatient, mObservations;
       if (smart.hasOwnProperty('patient')) {
-        var patient = smart.patient;
-        var pt = patient.read();
-        var obv = smart.patient.api.fetchAll({
+        mPatientResource = smart.patient;
+        mPatient = patientResource.read();
+        mObservations = patientResource.api.fetchAll({
                     type: 'Observation',
                     // query: {
                     //   code: {
@@ -22,27 +24,25 @@ console.log("extractData expanded scope");
                     // }
                   });
 
-        $.when(pt, obv).fail(onError);
+        $.when(mPatient, mObservations).fail(onError);
 
-        $.when(pt, obv).done(function(patient, obv) {
+        $.when(mPatient, mObservations).done(function(lPatient, lObservations) {
 
-
-
-          var byCodes = smart.byCodes(obv, 'code');
-          var gender = patient.gender;
+          var byCodes = smart.byCodes(lObservations, 'code'); //Is a data structure
+          var gender = lPatient.gender;
 
           var fname = '';
           var lname = '';
 
-console.log(patient);
-console.log(obv);
+console.log(lPatient);
+console.log(lObservations);
 console.log(byCodes);
 console.log(gender);
 
 
-          if (typeof patient.name[0] !== 'undefined') {
-            fname = patient.name[0].given.join(' ');
-            lname = patient.name[0].family.join(' ');
+          if (typeof lPatient.name[0] !== 'undefined') {
+            fname = lPatient.name[0].given.join(' ');
+            lname = lPatient.name[0].family.join(' ');
           }
 
           var height = byCodes('8302-2');
@@ -52,7 +52,7 @@ console.log(gender);
           var ldl = byCodes('2089-1');
 
           var p = defaultPatient();
-          p.birthdate = patient.birthDate;
+          p.birthdate = lPatient.birthDate;
           p.gender = gender;
           p.fname = fname;
           p.lname = lname;
