@@ -1,7 +1,7 @@
 (function(window){
   window.extractData = function() {
     var ret = $.Deferred();
-console.log("extractData output local vars");
+console.log("extractData output local vars2");
     function onError() {
       console.log('Loading error', arguments);
       ret.reject();
@@ -24,14 +24,14 @@ console.log("extractData output local vars");
                     // }
                   });
         mAllergyIntolerances = smart.patient.api.fetchAll({ type: 'AllergyIntolerance' });
-        mBinaries = smart.patient.api.fetchAll({ type: 'Binary' });
-        mCarePlans = smart.patient.api.fetchAll({ type: 'AllergyIntolerance' });
-        mConditions = smart.patient.api.fetchAll({ type: 'AllergyIntolerance' });
-        mDiagnosticReports = smart.patient.api.fetchAll({ type: 'AllergyIntolerance' });
-        mEncounters = smart.patient.api.fetchAll({ type: 'AllergyIntolerance' });
-        mPersons = smart.patient.api.fetchAll({ type: 'AllergyIntolerance' });
-        mPractitioners = smart.patient.api.fetchAll({ type: 'AllergyIntolerance' });
-        // patient/Binary.read patient/CarePlan.read patient/Condition.read patient/DiagnosticReport.read patient/Encounter.read patient/Observation.read patient/Patient.read patient/Person.read patient/Practitioner.read
+        // mBinaries = smart.patient.api.fetchAll({ type: 'Binary' });
+        mCarePlans = smart.patient.api.fetchAll({ type: 'CarePlan' });
+        mConditions = smart.patient.api.fetchAll({ type: 'Condition' });
+        mDiagnosticReports = smart.patient.api.fetchAll({ type: 'DiagnosticReport' });
+        mEncounters = smart.patient.api.fetchAll({ type: 'Encounter' });
+        mPersons = smart.patient.api.fetchAll({ type: 'Person' });
+        mPractitioners = smart.patient.api.fetchAll({ type: 'Practitioner' });
+        // patient/Binary.read  patient/Person.read patient/Practitioner.read
 
         $.when(mPatient, mObservations, mAllergyIntolerances, mBinaries, mCarePlans, 
           mConditions, mDiagnosticReports, mEncounters, mPersons, mPractitioners).fail(onError);
