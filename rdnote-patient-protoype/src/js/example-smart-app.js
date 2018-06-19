@@ -8,7 +8,9 @@ console.log("extractData expanded scope1 refactor piecewise3S");
     }
 
     function onReady(smart)  {
-      var mPatient, mObservations;
+      // var mPatient, mObservations;
+      var mAllergyIntolerances, mBinaries, mCarePlans, mConditions, mDiagnosticReports,
+      mEncounters, mObservations, mPatient, mPersons, mPractitioners; 
       if (smart.hasOwnProperty('patient')) {
         mPatient = smart.patient.read();
         mObservations = smart.patient.api.fetchAll({
@@ -21,10 +23,12 @@ console.log("extractData expanded scope1 refactor piecewise3S");
                     //   }
                     // }
                   });
+        mAllergyIntolerances = smart.patient.api.fetchAll({ type: 'AllergyIntolerance' });
+        // patient/AllergyIntolerance.read patient/Binary.read patient/CarePlan.read patient/Condition.read patient/DiagnosticReport.read patient/Encounter.read patient/Observation.read patient/Patient.read patient/Person.read patient/Practitioner.read
 
-        $.when(mPatient, mObservations).fail(onError);
+        $.when(mPatient, mObservations, mAllergyIntolerances).fail(onError);
 
-        $.when(mPatient, mObservations).done(function(patient, obv) {
+        $.when(mPatient, mObservations, mAllergyIntolerances).done(function(patient, obv, allIntol) {
 
 
 
@@ -36,6 +40,7 @@ console.log("extractData expanded scope1 refactor piecewise3S");
 
 console.log(patient);
 console.log(obv);
+console.log(allIntol);
 console.log(byCodes);
 console.log(gender);
 
