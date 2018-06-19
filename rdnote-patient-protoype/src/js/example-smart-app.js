@@ -1,7 +1,7 @@
 (function(window){
   window.extractData = function() {
     var ret = $.Deferred();
-console.log("extractData expanded scope1 refactor piecewise3S");
+console.log("extractData output local vars");
     function onError() {
       console.log('Loading error', arguments);
       ret.reject();
@@ -24,11 +24,21 @@ console.log("extractData expanded scope1 refactor piecewise3S");
                     // }
                   });
         mAllergyIntolerances = smart.patient.api.fetchAll({ type: 'AllergyIntolerance' });
-        // patient/AllergyIntolerance.read patient/Binary.read patient/CarePlan.read patient/Condition.read patient/DiagnosticReport.read patient/Encounter.read patient/Observation.read patient/Patient.read patient/Person.read patient/Practitioner.read
+        mBinaries = smart.patient.api.fetchAll({ type: 'Binary' });
+        mCarePlans = smart.patient.api.fetchAll({ type: 'AllergyIntolerance' });
+        mConditions = smart.patient.api.fetchAll({ type: 'AllergyIntolerance' });
+        mDiagnosticReports = smart.patient.api.fetchAll({ type: 'AllergyIntolerance' });
+        mEncounters = smart.patient.api.fetchAll({ type: 'AllergyIntolerance' });
+        mPersons = smart.patient.api.fetchAll({ type: 'AllergyIntolerance' });
+        mPractitioners = smart.patient.api.fetchAll({ type: 'AllergyIntolerance' });
+        // patient/Binary.read patient/CarePlan.read patient/Condition.read patient/DiagnosticReport.read patient/Encounter.read patient/Observation.read patient/Patient.read patient/Person.read patient/Practitioner.read
 
-        $.when(mPatient, mObservations, mAllergyIntolerances).fail(onError);
+        $.when(mPatient, mObservations, mAllergyIntolerances, mBinaries, mCarePlans, 
+          mConditions, mDiagnosticReports, mEncounters, mPersons, mPractitioners).fail(onError);
 
-        $.when(mPatient, mObservations, mAllergyIntolerances).done(function(patient, obv, allIntol) {
+        $.when(mPatient, mObservations, mAllergyIntolerances, mBinaries, mCarePlans, 
+          mConditions, mDiagnosticReports, mEncounters, mPersons, mPractitioners).done(
+          function(patient, obv, allIntol, lBinaries, lCarePlans, lConditions, lDiagnosticReports, lEncounters, lPersons, lPractitioners) {
 
 
 
@@ -41,6 +51,14 @@ console.log("extractData expanded scope1 refactor piecewise3S");
 console.log(patient);
 console.log(obv);
 console.log(allIntol);
+console.log(lBinaries);
+console.log(lCarePlans);
+console.log(lConditions);
+console.log(lDiagnosticReports);
+console.log(lEncounters);
+console.log(lPersons);
+console.log(lPractitioners);
+
 console.log(byCodes);
 console.log(gender);
 
